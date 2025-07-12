@@ -59,17 +59,19 @@ userRouter.post('/signup', async (c) => {
       message: error.message
     }, 500)
   }
-  
- 
-
+  let body
  try{
-  const body = await c.req.json()
+    body = await c.req.json()
 
   const {success} = signupInput.safeParse(body);
   if(!success){
     return c.text("invalid input")
   }
-  
+  }
+  catch(e){
+    return c.text("There was an error parsing the input")
+  }
+  try{
     const user = await prisma.user.create({
     data: {
       username: body.username,
@@ -77,13 +79,11 @@ userRouter.post('/signup', async (c) => {
       name: body.name
     }
   })
-  const jwt = await sign ({ id: user.id }  ,c.env.JWT_SECRET)
+   const jwt = await sign ({ id: user.id }  ,c.env.JWT_SECRET)
     return c.text(jwt)
+  }catch{
+      return c.text("There was an error in prisma")
   }
-  catch(e){
-    return c.text("There was an error creating a user")
-  }
-  
 })
 
 
