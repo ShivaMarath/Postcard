@@ -1,6 +1,7 @@
 import  Axios  from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { AppBar } from "./AppBar"
 
 export function Blog(){
     const [loading, setLoading] = useState(false)
@@ -17,7 +18,12 @@ export function Blog(){
 
     async function submitHandler(){
         try{setLoading(true)
-            const response = await Axios.post("https://backend.shivamarath2005.workers.dev/api/v1/blog" , {title: title , content: content})
+         await Axios.post("https://backend.shivamarath2005.workers.dev/api/v1/blog" , {title: title , content: content} , {
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":localStorage.getItem("token")
+            }
+            })
             navigate ('/Dashboard')
             
         }catch(e){
@@ -27,10 +33,8 @@ export function Blog(){
         }
     }
     return(<div>
-        <div className="font-bold pt-6 pl-6 text-3xl font-serif  ">
-            Postcards
-        </div>
-        <div className="grid gap-3 p-6">
+        <AppBar/>
+        <div className="grid gap-3 pt-1 p-6 ">
         <div>
         <label htmlFor="message" className="block mb-2 text-lg font-medium text-gray-900 dark:text-black">Title</label>
         <textarea onChange={titleChange} id="title" rows = {3} className="block p-2.5 w-full text-sm text-black-900 bg-black-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..."></textarea>

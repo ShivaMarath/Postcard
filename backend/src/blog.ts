@@ -38,11 +38,17 @@ blogRouter.post('/', async (c) => {
    const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
 }).$extends(withAccelerate())
-
-const body = await c.req.json();
-const authorId = await c.get("userId")
+let body;
+let authorId
 try{
-    const blog = await prisma.blog.create({
+     body = await c.req.json();
+     authorId = await c.get("userId")
+}catch(e){
+    c.text("error in parsing body or getting author id")
+}
+let blog
+try{
+        blog = await prisma.blog.create({
     data:{
         title: body.title,
         content: body.content,
