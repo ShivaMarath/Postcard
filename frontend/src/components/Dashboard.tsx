@@ -1,33 +1,37 @@
-import { AppBar } from "./AppBar"
-import { BlogCard } from "./BlogCard"
+import { AppBar } from "./AppBar";
+import { BlogCard } from "./BlogCard";
+import  useBlog  from "./hooks";
 
-export const Dashboard = ()=>{
-    return <div>
-        <AppBar/>
-        <BlogCard 
-            authorName="Shiva Marath"
-    title = "The way gym affects our lifes as busy individuals and helps us in getting fit"
-    content="The way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fit"
-    publishedDate= "13th July 2025"  />
-    <BlogCard 
-            authorName="Shiva Marath"
-    title = "The way gym affects our lifes as busy individuals and helps us in getting fit"
-    content="The way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fit"
-    publishedDate= "13th July 2025"  />
-    <BlogCard 
-            authorName="Shiva Marath"
-    title = "The way gym affects our lifes as busy individuals and helps us in getting fit"
-    content="The way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fit"
-    publishedDate= "13th July 2025"  />
-    <BlogCard 
-            authorName="Shiva Marath"
-    title = "The way gym affects our lifes as busy individuals and helps us in getting fit"
-    content="The way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fit"
-    publishedDate= "13th July 2025"  />
-    <BlogCard 
-            authorName="Shiva Marath"
-    title = "The way gym affects our lifes as busy individuals and helps us in getting fit"
-    content="The way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fitThe way gym affects our lifes as busy individuals and helps us in getting fit"
-    publishedDate= "13th July 2025"  />
-    </div>
-}
+export const Dashboard = () => {
+    const { loading, blog } = useBlog();
+    
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <div>
+            <AppBar />
+            <div className="space-y-4">
+                {blog.map(blog => {
+                    const publishedDate = new Date(blog.createdAt || Date.now())
+                        .toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+
+                    return (
+                        <BlogCard 
+                            key={blog.id}
+                            authorName={blog.author?.name || "Anonymous"}
+                            title={blog.title}
+                            content={blog.content}
+                            publishedDate={publishedDate}
+                        />
+                    );
+                })}
+            </div>
+        </div>
+    );
+};

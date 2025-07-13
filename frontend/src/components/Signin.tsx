@@ -18,9 +18,10 @@ export const Signin = ()=>{
       try{
       setLoading(true)
      const response = await Axios.post('https://backend.shivamarath2005.workers.dev/api/v1/user/signin' , {username: username, password: password})
-      const jwt = response.data;
-      localStorage.setItem('token', jwt)
-      navigate('/Dashboard')
+      const jwt = await response.data;
+      await localStorage.setItem('token', jwt)
+       
+      navigate('/')
     
   }catch(e){
     console.log("Error in sending the request")
