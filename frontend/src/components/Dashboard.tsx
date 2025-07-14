@@ -1,12 +1,23 @@
 import { AppBar } from "./AppBar";
 import { BlogCard } from "./BlogCard";
 import  useBlog  from "./hooks";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
+    const navigate = useNavigate()
     const { loading, blog } = useBlog();
     
     if (loading) {
         return <div>Loading...</div>;
+    }
+    if(!useBlog){
+        console.error("Unauthorized")
+        navigate('/signin')
+    }
+    const token = localStorage.getItem('token')
+    if(!token){
+        console.error("Unauthorized")
+        navigate('/signin')
     }
 
     return (

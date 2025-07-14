@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { AppBar } from "./AppBar"
 
+
 export function Blog(){
     const [loading, setLoading] = useState(false)
     const [title, setTitle] = useState("")
@@ -24,10 +25,11 @@ export function Blog(){
                 "Authorization":localStorage.getItem("token")
             }
             })
-            navigate ('/Dashboard')
+            navigate ('/')
             
         }catch(e){
-             console.log("Error in sending the request")
+             console.error("Some error occured")
+             navigate('/signin')
         }finally{
             setLoading(false)
         }

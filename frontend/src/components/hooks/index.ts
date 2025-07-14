@@ -1,7 +1,9 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const useBlog = () => {
+    const navigate =useNavigate()
     const [loading, setLoading] = useState(true)
     const [blog,setBlog] = useState<blogtype[]>([])
     interface blogtype{
@@ -13,7 +15,8 @@ const useBlog = () => {
                     name:string
             }
     }
-    useEffect(() => {
+    try{
+      useEffect(() => {
      axios.get("https://backend.shivamarath2005.workers.dev/api/v1/blog/bulk",{
       headers:{
         'Authorization': localStorage.getItem("token")
@@ -26,6 +29,12 @@ const useBlog = () => {
         }
       )
     }, [])
+    }catch{
+      console.error("Unauthorized")
+      navigate('/signin')
+      
+    }
+    
     
     return({loading, blog })
 }
