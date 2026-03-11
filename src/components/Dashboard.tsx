@@ -1,5 +1,4 @@
 import { AppBar } from "./AppBar";
-import { BlogCard } from "./BlogCard";
 import useBlog from "./hooks";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -7,7 +6,6 @@ import { useEffect } from "react";
 const NAVY = "#0d1b2a";
 const DARK = "#111827";
 const MID = "#1e3a5f";
-const OFF = "#f7f7f5";
 const MUTED = "#6b7280";
 const WHITE = "#ffffff";
 
